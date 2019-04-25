@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2019_04_25_140635) do
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "status", default: 0
     t.string "pickup_point"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end

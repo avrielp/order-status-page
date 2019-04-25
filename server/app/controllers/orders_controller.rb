@@ -10,7 +10,7 @@ class OrdersController < ApplicationController
 
   # GET /orders/1
   def show
-    render json: @order
+    render :json => @order.to_json(:include => [:user, :order_items])
   end
 
   # POST /orders
@@ -41,7 +41,7 @@ class OrdersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
-      @order = Order.find(params[:id])
+      @order = Order.includes(:order_items).includes(:user).find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

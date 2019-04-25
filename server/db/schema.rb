@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2019_04_25_140635) do
     t.string "company_site"
     t.string "company_address"
     t.string "company_extra_details"
+    t.string "logo_src"
   end
 
 end

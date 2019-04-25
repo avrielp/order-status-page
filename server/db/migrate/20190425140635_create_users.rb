@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :company_site
       t.string :company_address
       t.string :company_extra_details
+      t.string :logo_src
 
     end
   end

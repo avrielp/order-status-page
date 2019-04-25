@@ -18,8 +18,26 @@ class App extends Component {
     return str.substring(str.lastIndexOf('/') + 1);
   }
 
+  getBaseApiUrl() {
+    if (window.location.href.indexOf('localhost') !== -1) {
+      return 'localhost:3001';
+    }
+    else {
+      return 'avriel-order-server.herokuapp.com';
+    }
+  }
+
+  getWebSocketUrl() {
+    if (window.location.href.indexOf('localhost') !== -1) {
+      return `ws://${this.getBaseApiUrl()}/cable`
+    }
+    else {
+      return `wss://${this.getBaseApiUrl()}/cable`
+    }
+  }
+
   async componentDidMount() {
-    this.cable = Cable.createConsumer('ws://localhost:3001/cable');
+    this.cable = Cable.createConsumer(this.getWebSocketUrl());
 
     this.cable.subscriptions.create({
       channel: 'OrderStatusChangesChannel'
@@ -28,7 +46,7 @@ class App extends Component {
     });
     try {
       this.setState({ loading: true });
-      const data = await Axios.get(`http://localhost:3001/orders/${this.getIdOfOrder()}`);
+      const data = await Axios.get(`http://${this.getBaseApiUrl()}/orders/${this.getIdOfOrder()}`);
       this.setState({ order: data.data, loading: false });
     }
     catch(e) {
@@ -53,12 +71,11 @@ class App extends Component {
 
   render() {
     const { order, loading } = this.state;
-    console.log(order);
     return (
         <div className="App">
           <div className="order-wrapper">
               {loading && "Loading..."}
-              {!loading && !order && "No order found."}
+              {!loading && !order && "No order found with the given ID. Please specify a valid ID."}
               {order && order.id && <>
                 <div className="row border-bottom">
                   <div className="col-md-6">

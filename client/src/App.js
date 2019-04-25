@@ -39,9 +39,12 @@ class App extends Component {
   }
 
   handleOrderStatusChanged = (data) => {
-    const newState = { order: { ...this.state.order, status: data.status } };
-    console.log(`Status was update to ${data.status}`);
-    this.setState(newState);
+    const { id, status } = data;
+    if (id === this.state.order.id) {
+      const newState = { order: { ...this.state.order, status: data.status } };
+      this.setState(newState);
+    }
+    console.log(`Status was update to ${status}`);
   }
 
   titleize(string) {

@@ -8,7 +8,7 @@ class Order < ApplicationRecord
 
   def broadcast_status_change
     if previous_changes[:status]
-      ActionCable.server.broadcast 'order_status_changes', status: status
+      ActionCable.server.broadcast 'order_status_changes', { status: status, id: id }
       Rails.logger.info "Sent message!"
     end
   end
